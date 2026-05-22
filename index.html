@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amani Saadi | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa;
+      --foreground: #0b0b0c;
+      --card-bg: #ffffff;
+      --card-border: rgba(0, 0, 0, 0.06);
+      --accent: #D80035;
+      --accent-hover: #b0002a;
+      --text-muted: #66666e;
+      --grid-opacity: 0.4;
+    }
+
+    body.dark {
+      --bg: #030303;
+      --foreground: #f4f4f5;
+      --card-bg: #09090b;
+      --card-border: rgba(255, 255, 255, 0.07);
+      --text-muted: #a1a1aa;
+      --grid-opacity: 0.15;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--foreground);
+      scroll-behavior: smooth;
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(var(--card-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--card-border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at 50% 20%, black 40%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 20%, black 40%, transparent 80%);
+      opacity: var(--grid-opacity);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(var(--bg), 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      /* Slightly reduced vertical padding to balance the larger text */
+    }
+
+    /* ─── ENLARGED LOGO TYPOGRAPHY ─── */
+    .logo {
+      font-weight: 800;
+      font-size: 1.6rem;
+      /* Increased from 1.1rem to make it visibly bigger and bolder */
+      letter-spacing: -0.04em;
+      text-decoration: none;
+      color: var(--foreground);
+      line-height: 1;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--foreground);
+    }
+
+    #theme-toggle {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--foreground);
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    #theme-toggle:hover {
+      background: var(--card-border);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 8rem 0 4rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: center;
+      min-height: 90vh;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        grid-template-columns: 0.8fr 1.2fr;
+      }
+    }
+
+    .hero-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-portrait-frame {
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 1 / 1.35;
+      border-radius: 170px;
+      border: 1px solid var(--card-border);
+      padding: 8px;
+      background: var(--card-bg);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+    }
+
+    .hero-portrait-frame:hover {
+      border-color: var(--accent);
+      transform: scale(1.01);
+    }
+
+    .hero-portrait-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 162px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: 1.5rem;
+      width: max-content;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: #10b981;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    h1 {
+      font-size: clamp(2.3rem, 5vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 span {
+      background: linear-gradient(to right, var(--foreground), var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 1.8vw, 1.15rem);
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      padding: 0.8rem 1.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-pink-primary {
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid var(--accent);
+      box-shadow: 0 4px 14px rgba(216, 0, 53, 0.15);
+    }
+
+    .btn-pink-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(216, 0, 53, 0.25);
+    }
+
+    .btn-pink-secondary {
+      background: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-pink-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+      background: rgba(216, 0, 53, 0.02);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media(min-width: 768px) {
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      border-color: var(--foreground);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    body.dark .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .project-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .project-image-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      overflow: hidden;
+    }
+
+    .project-card img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .project-card:hover img {
+      transform: scale(1.03);
+    }
+
+    .project-content {
+      padding: 2rem;
+    }
+
+    .about-text {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 800px;
+    }
+
+    .contact-wrapper {
+      display: grid;
+      gap: 3rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .contact-wrapper {
+        grid-template-columns: 1.5fr 1fr;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: var(--foreground);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--foreground);
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .contact-item span:first-child {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .contact-item span:last-child {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 4rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--card-border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-grid"></div>
+
+  <header>
+    <div class="nav-container">
+      <a href="#home" class="logo">Amani<span>.</span></a>
+      <nav>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <button id="theme-toggle" title="Toggle theme">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="home" class="hero">
+
+      <div class="hero-image-container">
+        <div class="hero-portrait-frame">
+          <img src="images/amani.png" alt="Amani Saadi Portrait">
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Available for freelance
+        </div>
+        <h1><span>Designing & building digital experiences.</span></h1>
+        <p>I'm Amani Saadi, a web developer and infographic designer dedicated to crafting clean, functional code
+          architectures and balanced interfaces that elevate brands online.</p>
+        <div class="cta-group">
+          <a href="Amani-CV.pdf" download class="btn btn-pink-primary">Download CV</a>
+          <a href="#projects" class="btn btn-pink-secondary">View Work</a>
+        </div>
+      </div>
+
+    </section>
+
+    <section id="services">
+      <h2 class="section-title">Capabilities</h2>
+      <p class="section-subtitle">I help engineering teams, startups, and brands grow through a delicate blend of design
+        intuition and structured engineering.</p>
+
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>Web Development</h3>
+          <p>Building high-performance, accessible, and scalable digital interfaces using modern tech stacks like React,
+            Next.js, and clean Tailwind architectures.</p>
+        </div>
+        <div class="card">
+          <h3>UI/UX Design</h3>
+          <p>Architecting user-centered systems through structural wireframing and precise visual systems inside Figma
+            to prioritize natural navigation flows.</p>
+        </div>
+        <div class="card">
+          <h3>Branding & Data Visuals</h3>
+          <p>Translating abstract strategies and data points into crisp identity sets and highly structured infographics
+            that clearly express systemic value.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title">Selected Projects</h2>
+      <p class="section-subtitle">A quick curation of engineering work designed to connect platforms, speed up
+        performance, and enhance productivity.</p>
+
+      <div class="grid grid-3">
+        <div class="card project-card">
+          <div class="project-image-wrapper">
+            <img src="images/halwaty.png" alt="Halwaty platform interface thumbnail">
+          </div>
+          <div class="project-content">
+            <h3>Halwaty</h3>
+            <p>A dual platform built with Flutter and Firebase helping traditional Algerian pastry artisans directly
+              interface with clients. Integrates secure data stores and live messaging architectures.</p>
+          </div>
+        </div>
+
+        <div class="card project-card">
+          <div class="project-image-wrapper">
+            <img src="images/biker.png" alt="Biker Store e-commerce interface thumbnail">
+          </div>
+          <div class="project-content">
+            <h3>Biker Store</h3>
+            <p>An e-commerce hub for premium motorcycle equipment built with Next.js and optimized using Tailwind
+              styles. Highly tuned for minimal bundle payloads and fast navigation indices.</p>
+          </div>
+        </div>
+
+        <div class="card project-card">
+          <div class="project-image-wrapper">
+            <img src="images/green.png" alt="Green Dish eco-friendly culinary platform interface thumbnail">
+          </div>
+          <div class="project-content">
+            <h3>Green Dish</h3>
+            <p>A sustainable culinary web application designed to optimize recipe planning based on seasonal ingredients
+              and low carbon footprints. Features interactive data modules that calculate environmental impact indices
+              dynamically across complex meal compositions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title">About</h2>
+      <p class="section-subtitle">The designer-developer bridge.</p>
+      <div class="about-text">
+        <p>Based in Algeria, I approach digital products with an equal focus on structural execution and spatial layout
+          aesthetics. My double background in code implementation and graphical design removes standard engineering
+          handoff friction completely, making sure every component looks perfectly proportioned while staying fully
+          maintainable. I focus on reducing computational layout overhead, writing self-documenting code systems, and
+          creating digital paths that naturally communicate value to users.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="section-title">Get in touch</h2>
+      <p class="section-subtitle">Have a project or looking to add to your remote engineering or design roster? Shoot a
+        line below.</p>
+
+      <div class="contact-wrapper">
+        <form action="#">
+          <input type="text" placeholder="Your Name" required>
+          <input type="email" placeholder="Your Email Address" required>
+          <textarea placeholder="Tell me about your project context..." rows="6" required></textarea>
+          <button type="submit" class="btn btn-pink-primary" style="align-self: flex-start; padding: 0.85rem 2rem;">Send
+            Message</button>
+        </form>
+
+        <div class="contact-info-list">
+          <div class="contact-item">
+            <span>Direct Email</span>
+            <span>amaniuwu12@gmail.com</span>
+          </div>
+          <div class="contact-item">
+            <span>Phone Infrastructure</span>
+            <span>+213 795425280</span>
+          </div>
+          <div class="contact-item">
+            <span>Work Coordinates</span>
+            <span>Algeria (Remote-Ready)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> AmaniDev. Fabricated using high-efficiency design practices.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      body.classList.add('dark');
+      toggleBtn.textContent = '☀️';
+    } else {
+      body.classList.remove('dark');
+      toggleBtn.textContent = '🌙';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      const isDark = body.classList.contains('dark');
+      toggleBtn.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  </script>
+</body>
+
+</html>
