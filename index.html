@@ -10,6 +10,7 @@
   <style>
     :root {
       --bg: #fafafa;
+      --bg-rgb: 250, 250, 250;
       --foreground: #0b0b0c;
       --card-bg: #ffffff;
       --card-border: rgba(0, 0, 0, 0.06);
@@ -21,6 +22,7 @@
 
     body.dark {
       --bg: #030303;
+      --bg-rgb: 3, 3, 3;
       --foreground: #f4f4f5;
       --card-bg: #09090b;
       --card-border: rgba(255, 255, 255, 0.07);
@@ -65,7 +67,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      background: rgba(var(--bg), 0.7);
+      background: rgba(var(--bg-rgb), 0.75);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--card-border);
@@ -79,14 +81,11 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 1.5rem;
-      /* Slightly reduced vertical padding to balance the larger text */
     }
 
-    /* ─── ENLARGED LOGO TYPOGRAPHY ─── */
     .logo {
       font-weight: 800;
       font-size: 1.6rem;
-      /* Increased from 1.1rem to make it visibly bigger and bolder */
       letter-spacing: -0.04em;
       text-decoration: none;
       color: var(--foreground);
@@ -99,7 +98,7 @@
 
     nav {
       display: flex;
-      gap: 2rem;
+      gap: 1.25rem;
       align-items: center;
     }
 
@@ -140,20 +139,27 @@
     }
 
     section {
-      padding: 8rem 0 4rem;
+      padding: 6rem 0 3rem;
+    }
+    
+    /* Ensure proper anchor offset due to fixed header */
+    section[id] {
+      scroll-margin-top: 5rem;
     }
 
     .hero {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2.5rem;
       align-items: center;
-      min-height: 90vh;
+      min-height: calc(100vh - 4rem);
+      padding-top: 6rem;
     }
 
     @media (min-width: 900px) {
       .hero {
         grid-template-columns: 0.8fr 1.2fr;
+        padding-top: 4rem;
       }
     }
 
@@ -162,18 +168,32 @@
       justify-content: center;
       align-items: center;
       position: relative;
+      order: -1; /* Shows image on top for mobile views */
+    }
+
+    @media (min-width: 900px) {
+      .hero-image-container {
+        order: 0; /* Restores side-by-side alignment on desktop */
+      }
     }
 
     .hero-portrait-frame {
       width: 100%;
-      max-width: 340px;
+      max-width: 280px;
       aspect-ratio: 1 / 1.35;
-      border-radius: 170px;
+      border-radius: 140px;
       border: 1px solid var(--card-border);
       padding: 8px;
       background: var(--card-bg);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s;
+    }
+
+    @media(min-width: 900px) {
+      .hero-portrait-frame {
+        max-width: 340px;
+        border-radius: 170px;
+      }
     }
 
     .hero-portrait-frame:hover {
@@ -185,13 +205,28 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 162px;
+      border-radius: 132px;
+    }
+
+    @media(min-width: 900px) {
+      .hero-portrait-frame img {
+        border-radius: 162px;
+      }
     }
 
     .hero-content {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      text-align: center;
+      align-items: center;
+    }
+
+    @media(min-width: 900px) {
+      .hero-content {
+        text-align: left;
+        align-items: flex-start;
+      }
     }
 
     .badge {
@@ -219,7 +254,7 @@
     }
 
     h1 {
-      font-size: clamp(2.3rem, 5vw, 3.6rem);
+      font-size: clamp(2.1rem, 5vw, 3.6rem);
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.15;
@@ -243,6 +278,13 @@
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    @media(min-width: 900px) {
+      .cta-group {
+        justify-content: flex-start;
+      }
     }
 
     .btn {
@@ -286,7 +328,7 @@
     }
 
     .section-title {
-      font-size: 2rem;
+      font-size: clamp(1.75rem, 4vw, 2rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       margin-bottom: 0.5rem;
@@ -295,7 +337,7 @@
     .section-subtitle {
       font-size: 1rem;
       color: var(--text-muted);
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
       max-width: 600px;
       line-height: 1.5;
     }
@@ -306,7 +348,13 @@
       grid-template-columns: 1fr;
     }
 
-    @media(min-width: 768px) {
+    @media(min-width: 640px) {
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(min-width: 960px) {
       .grid-3 {
         grid-template-columns: repeat(3, 1fr);
       }
@@ -316,10 +364,16 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 1.75rem;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
+    }
+
+    @media(min-width: 768px) {
+      .card {
+        padding: 2rem;
+      }
     }
 
     .card:hover {
@@ -375,11 +429,17 @@
     }
 
     .project-content {
-      padding: 2rem;
+      padding: 1.5rem;
+    }
+
+    @media(min-width: 768px) {
+      .project-content {
+        padding: 2rem;
+      }
     }
 
     .about-text {
-      font-size: 1.15rem;
+      font-size: clamp(1.05rem, 2vw, 1.15rem);
       line-height: 1.7;
       color: var(--text-muted);
       max-width: 800px;
@@ -387,13 +447,13 @@
 
     .contact-wrapper {
       display: grid;
-      gap: 3rem;
+      gap: 2.5rem;
       grid-template-columns: 1fr;
     }
 
     @media (min-width: 768px) {
       .contact-wrapper {
-        grid-template-columns: 1.5fr 1fr;
+        grid-template-columns: 1.3fr 1fr;
       }
     }
 
@@ -401,6 +461,7 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      width: 100%;
     }
 
     input,
@@ -445,11 +506,12 @@
     .contact-item span:last-child {
       font-size: 1.1rem;
       font-weight: 500;
+      word-break: break-all; /* Prevents long emails from stretching mobile displays */
     }
 
     footer {
       border-top: 1px solid var(--card-border);
-      padding: 4rem 0;
+      padding: 3rem 0;
       text-align: center;
       color: var(--text-muted);
       font-size: 0.85rem;
@@ -470,6 +532,19 @@
 
     ::-webkit-scrollbar-thumb:hover {
       background: var(--text-muted);
+    }
+
+    /* Small mobile fine-tuning optimization */
+    @media (max-width: 480px) {
+      nav {
+        gap: 0.75rem;
+      }
+      nav a {
+        font-size: 0.85rem;
+      }
+      .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -496,7 +571,7 @@
 
       <div class="hero-image-container">
         <div class="hero-portrait-frame">
-          <img src="image/amani.png" alt="Amani.png">
+          <img src="image/amani.png" alt="Amani Saadi Profile Picture">
         </div>
       </div>
 
